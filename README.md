@@ -13,10 +13,10 @@ Submit tabular physics data → receive the discovered symbolic law + hidden phy
 
 | Paper | DOI |
 |-------|-----|
-| PIR Architecture v3 | [10.5281/zenodo.19428230](https://doi.org/10.5281/zenodo.19428230) |
-| PIR-Bench v3.1 | [10.5281/zenodo.19130521](https://doi.org/10.5281/zenodo.19130521) |
-| PhysicsGPT v3 | [10.5281/zenodo.19130163](https://doi.org/10.5281/zenodo.19130163) |
-| PIR-JEPA | [10.5281/zenodo.19428230](https://doi.org/10.5281/zenodo.19428230) |
+| PIR Architecture v3 |(https://doi.org/10.5281/zenodo.19428230) |
+| PIR-Bench v3.1 | (https://doi.org/10.5281/zenodo.19477466) |
+| PhysicsGPT v3 | (https://doi.org/10.5281/zenodo.19428391) |
+| PIR-JEPA | (10.5281/zenodo.19477508) |
 
 ## Quick Start
 
