@@ -31,7 +31,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Grid background */
 body::before {
   content: '';
   position: fixed;
@@ -48,12 +47,11 @@ body::before {
 .container {
   position: relative;
   z-index: 1;
-  max-width: 960px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 40px 24px 80px;
 }
 
-/* Header */
 header {
   border-bottom: 1px solid var(--border);
   padding-bottom: 24px;
@@ -102,7 +100,11 @@ h1 span { color: var(--accent); }
   color: var(--muted);
 }
 
-/* Layout */
+.pill.highlight {
+  border-color: var(--success);
+  color: var(--success);
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -163,7 +165,6 @@ input, textarea, select {
 }
 
 input:focus, textarea:focus { border-color: var(--accent); }
-
 textarea { min-height: 140px; }
 
 .toggle-row {
@@ -173,18 +174,9 @@ textarea { min-height: 140px; }
   margin-top: 16px;
 }
 
-.toggle-label {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text);
-}
+.toggle-label { font-family: var(--mono); font-size: 11px; color: var(--text); }
 
-.toggle {
-  position: relative;
-  width: 36px;
-  height: 20px;
-}
-
+.toggle { position: relative; width: 36px; height: 20px; }
 .toggle input { opacity: 0; width: 0; height: 0; }
 
 .slider {
@@ -210,6 +202,36 @@ textarea { min-height: 140px; }
   background: #fff;
 }
 
+.steps-row {
+  margin-top: 16px;
+}
+
+.steps-row input[type=range] {
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  border: none;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.steps-display {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.steps-value {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+  text-align: center;
+  margin-top: 4px;
+}
+
 .btn {
   display: block;
   width: 100%;
@@ -224,8 +246,6 @@ textarea { min-height: 140px; }
   text-transform: uppercase;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
-  position: relative;
-  overflow: hidden;
 }
 
 .btn:hover { background: var(--accent); color: var(--bg); }
@@ -237,6 +257,56 @@ textarea { min-height: 140px; }
   margin-top: 10px;
 }
 .btn-example:hover { background: var(--border); color: var(--text); }
+
+/* Ablation chart */
+.ablation-chart {
+  margin-top: 0;
+}
+
+.ablation-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.ablation-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  width: 60px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.ablation-bar-wrap {
+  flex: 1;
+  background: var(--bg);
+  height: 18px;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.ablation-bar {
+  height: 100%;
+  transition: width 0.6s ease;
+}
+
+.ablation-pct {
+  font-family: var(--mono);
+  font-size: 10px;
+  width: 38px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.ablation-note {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  width: 80px;
+  flex-shrink: 0;
+}
 
 /* Results */
 .result-panel {
@@ -314,11 +384,7 @@ textarea { min-height: 140px; }
   align-items: flex-start;
 }
 
-.alert-icon {
-  font-size: 20px;
-  line-height: 1;
-  flex-shrink: 0;
-}
+.alert-icon { font-size: 20px; line-height: 1; flex-shrink: 0; }
 
 .alert-title {
   font-family: var(--mono);
@@ -341,7 +407,6 @@ textarea { min-height: 140px; }
   margin-top: 8px;
 }
 
-/* Loading */
 .spinner {
   display: inline-block;
   width: 12px; height: 12px;
@@ -364,7 +429,6 @@ textarea { min-height: 140px; }
   color: #ff6666;
 }
 
-/* Footer */
 footer {
   margin-top: 60px;
   padding-top: 20px;
@@ -395,13 +459,15 @@ footer {
     <p class="subtitle">
       Submit tabular physics data. Receive the discovered symbolic law,
       dimensional consistency score, and hidden physics sensitivity Δs.
+      Powered by JEPA physics manifold prior + Langevin diffusion sampling.
     </p>
     <div class="pills">
+      <span class="pill highlight">100% DR on OOG Tasks</span>
+      <span class="pill">Langevin 500 Steps Optimal</span>
       <span class="pill">OT Hybrid Loss α=0.7 β=0.3</span>
       <span class="pill">JEPA Prior γ=0.2</span>
-      <span class="pill">Soft Scoring</span>
-      <span class="pill">No Hard Rejection</span>
-      <span class="pill">80% DR on OOG Tasks</span>
+      <span class="pill">Soft Scoring — No Hard Rejection</span>
+      <span class="pill">Over-Diffusion Phenomenon Documented</span>
     </div>
   </header>
 
@@ -421,11 +487,20 @@ footer {
       <textarea id="data" placeholder="0.1, 0.5, -0.35&#10;-0.3, 1.2, 0.67&#10;..."></textarea>
 
       <div class="toggle-row">
-        <span class="toggle-label">JEPA Prior Active</span>
+        <span class="toggle-label">JEPA + Langevin Active</span>
         <label class="toggle">
           <input type="checkbox" id="use_jepa" checked>
           <span class="slider"></span>
         </label>
+      </div>
+
+      <div class="steps-row">
+        <label style="margin-top:14px">Langevin Steps — <span id="steps-label" style="color:var(--accent)">500 (optimal)</span></label>
+        <input type="range" id="langevin_steps" min="100" max="1000" step="50" value="500"
+               oninput="updateStepsLabel(this.value)">
+        <div class="steps-display">
+          <span>100</span><span>200</span><span>500</span><span>750</span><span>1000</span>
+        </div>
       </div>
 
       <button class="btn" id="discover-btn" onclick="runDiscovery()">
@@ -438,33 +513,78 @@ footer {
 
     <!-- Info panel -->
     <div class="panel">
-      <div class="panel-title">How It Works</div>
+      <div class="panel-title">Architecture</div>
 
       <p style="color:var(--muted);font-size:13px;line-height:1.8;margin-bottom:16px;">
-        PIR-JEPA combines an optimal transport hybrid loss with a JEPA
-        physics manifold prior to discover symbolic laws — including
-        expressions outside standard grammar templates.
+        PIR-JEPA uses two additive candidate sources beyond the grammar:
+        physics-informed template augmentation and Langevin diffusion on a
+        JEPA-learned physics manifold.
       </p>
 
       <label style="margin-top:0">Scoring Formula</label>
-      <div style="background:var(--bg);border:1px solid var(--border);padding:12px;font-family:var(--mono);font-size:12px;line-height:1.8;color:#fff;">
-        s_total(c) = s_OT(c) + 0.2 · s_JEPA(c)<br>
-        s_OT(c) = −(0.7·MSE + 0.3·W₁)
+      <div style="background:var(--bg);border:1px solid var(--border);padding:12px;font-family:var(--mono);font-size:11px;line-height:2;color:#fff;">
+        s_total = s_OT + 0.2 · s_JEPA<br>
+        s_OT = −(0.7·MSE + 0.3·W₁)<br>
+        s_JEPA = −‖z_pred − z_target‖₂
       </div>
 
-      <label>Hidden Physics Sensitivity</label>
-      <div style="background:var(--bg);border:1px solid var(--border);padding:12px;font-size:13px;line-height:1.7;color:var(--muted);">
-        Δs = s(rank-1) − s(rank-2)<br><br>
-        <span style="color:var(--warn)">Δs &lt; 0.15</span> → dataset flagged:
-        the rank-2 candidate is a plausible correction to the dominant law.
-        Consistent with dark matter, fifth force, or modified gravity.
+      <label>Langevin Step Count Ablation</label>
+      <div class="ablation-chart">
+        <div class="ablation-row">
+          <span class="ablation-label">T=0</span>
+          <div class="ablation-bar-wrap">
+            <div class="ablation-bar" style="width:80%;background:var(--muted)"></div>
+          </div>
+          <span class="ablation-pct" style="color:var(--muted)">80%</span>
+          <span class="ablation-note">template only</span>
+        </div>
+        <div class="ablation-row">
+          <span class="ablation-label">T=200</span>
+          <div class="ablation-bar-wrap">
+            <div class="ablation-bar" style="width:80%;background:var(--muted)"></div>
+          </div>
+          <span class="ablation-pct" style="color:var(--muted)">80%</span>
+          <span class="ablation-note">under-diffusion</span>
+        </div>
+        <div class="ablation-row">
+          <span class="ablation-label">T=500</span>
+          <div class="ablation-bar-wrap">
+            <div class="ablation-bar" style="width:100%;background:var(--success)"></div>
+          </div>
+          <span class="ablation-pct" style="color:var(--success)">100%</span>
+          <span class="ablation-note">✓ optimal</span>
+        </div>
+        <div class="ablation-row">
+          <span class="ablation-label">T=750</span>
+          <div class="ablation-bar-wrap">
+            <div class="ablation-bar" style="width:100%;background:var(--success)"></div>
+          </div>
+          <span class="ablation-pct" style="color:var(--success)">100%</span>
+          <span class="ablation-note">✓ optimal</span>
+        </div>
+        <div class="ablation-row">
+          <span class="ablation-label">T=900</span>
+          <div class="ablation-bar-wrap">
+            <div class="ablation-bar" style="width:80%;background:var(--warn)"></div>
+          </div>
+          <span class="ablation-pct" style="color:var(--warn)">80%</span>
+          <span class="ablation-note">over-diffusion</span>
+        </div>
+        <div class="ablation-row">
+          <span class="ablation-label">T=1000</span>
+          <div class="ablation-bar-wrap">
+            <div class="ablation-bar" style="width:60%;background:#ff4444"></div>
+          </div>
+          <span class="ablation-pct" style="color:#ff4444">60%</span>
+          <span class="ablation-note">over-diffusion</span>
+        </div>
       </div>
 
       <label>Papers</label>
       <div style="font-family:var(--mono);font-size:11px;line-height:2;color:var(--muted);">
+        PIR-JEPA v2 · <a href="https://doi.org/10.5281/zenodo.19477508" target="_blank" style="color:var(--accent);text-decoration:none;">10.5281/zenodo.19477508</a><br>
         PIR Architecture v3 · <a href="https://doi.org/10.5281/zenodo.19428230" target="_blank" style="color:var(--accent);text-decoration:none;">10.5281/zenodo.19428230</a><br>
-        PIR-Bench v3.1 · <a href="https://doi.org/10.5281/zenodo.19130521" target="_blank" style="color:var(--accent);text-decoration:none;">10.5281/zenodo.19130521</a><br>
-        PIR-JEPA · <a href="https://doi.org/10.5281/zenodo.19428230" target="_blank" style="color:var(--accent);text-decoration:none;">zenodo.19428230</a>
+        PIR-Bench v3.1 · <a href="https://doi.org/10.5281/zenodo.19130521" target="_blank" style="color:var(--accent);text-decoration:none;">10.5281/zenodo.19130521</a>
       </div>
     </div>
 
@@ -480,6 +600,7 @@ footer {
     <a class="footer-link" href="/docs">API Docs →</a>
     <a class="footer-link" href="/example">Example Request →</a>
     <a class="footer-link" href="https://github.com/qmhanif/pir-jepa" target="_blank">GitHub →</a>
+    <a class="footer-link" href="https://doi.org/10.5281/zenodo.19477508" target="_blank">Zenodo →</a>
     <a class="footer-link" href="mailto:qmhanif70@gmail.com">Contact →</a>
     <span class="footer-link">Muhammad Hanif · Independent Researcher · 2026</span>
   </footer>
@@ -487,29 +608,40 @@ footer {
 </div>
 
 <script>
+function updateStepsLabel(val) {
+  const el = document.getElementById('steps-label');
+  val = parseInt(val);
+  if (val >= 500 && val <= 750) {
+    el.textContent = val + ' (optimal window)';
+    el.style.color = 'var(--success)';
+  } else if (val < 500) {
+    el.textContent = val + ' (under-diffusion risk)';
+    el.style.color = 'var(--warn)';
+  } else {
+    el.textContent = val + ' (over-diffusion risk)';
+    el.style.color = '#ff4444';
+  }
+}
+
 async function loadExample() {
   const btn = document.getElementById('discover-btn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>Loading...';
-
   try {
     const res = await fetch('/example');
     const data = await res.json();
     const req = data.request;
-
     document.getElementById('variables').value = req.variables.join(', ');
     document.getElementById('target').value = req.target;
     document.getElementById('use_jepa').checked = req.use_jepa;
-
     const rows = req.data.map(r => r.map(v => v.toFixed(4)).join(', ')).join('\n');
     document.getElementById('data').value = rows;
   } catch(e) {
-    // fallback: generate locally
     const rows = [];
     for (let i = 0; i < 30; i++) {
-      const x = (Math.random() * 4 - 2).toFixed(4);
-      const v = (Math.random() * 4 - 2).toFixed(4);
-      const F = (-1.0 * x - 0.5 * v * Math.abs(v) + (Math.random()-0.5)*0.02).toFixed(4);
+      const x = (Math.random()*4-2).toFixed(4);
+      const v = (Math.random()*4-2).toFixed(4);
+      const F = (-1.0*x - 0.5*v*Math.abs(v) + (Math.random()-0.5)*0.02).toFixed(4);
       rows.push(`${x}, ${v}, ${F}`);
     }
     document.getElementById('variables').value = 'x, v';
@@ -526,20 +658,20 @@ async function runDiscovery() {
   const panel = document.getElementById('result-panel');
   const content = document.getElementById('result-content');
 
-  // Parse inputs
   const variables = document.getElementById('variables').value
     .split(',').map(s => s.trim()).filter(Boolean);
   const target = document.getElementById('target').value.trim();
   const use_jepa = document.getElementById('use_jepa').checked;
+  const langevin_steps = parseInt(document.getElementById('langevin_steps').value);
   const rawData = document.getElementById('data').value.trim();
 
   if (!variables.length || !target || !rawData) {
     showError('Please fill in all fields.'); return;
   }
 
-  const data = rawData.split('\n').map(line =>
-    line.split(',').map(v => parseFloat(v.trim()))
-  ).filter(row => row.length > 0 && !row.some(isNaN));
+  const data = rawData.split('\n')
+    .map(line => line.split(',').map(v => parseFloat(v.trim())))
+    .filter(row => row.length > 0 && !row.some(isNaN));
 
   if (data.length < 20) {
     showError(`Need at least 20 data points. Got ${data.length}.`); return;
@@ -549,13 +681,13 @@ async function runDiscovery() {
   btn.innerHTML = '<span class="spinner"></span>Discovering...';
   panel.classList.add('visible');
   content.innerHTML = '<div style="color:var(--muted);font-family:var(--mono);font-size:12px;padding:20px 0;">'
-    + '<span class="spinner"></span>Running PIR-JEPA discovery engine...</div>';
+    + `<span class="spinner"></span>Running PIR-JEPA with ${langevin_steps} Langevin steps...</div>`;
 
   try {
     const res = await fetch('/discover', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({data, variables, target, use_jepa})
+      body: JSON.stringify({data, variables, target, use_jepa, langevin_steps})
     });
 
     if (!res.ok) {
@@ -563,9 +695,7 @@ async function runDiscovery() {
       showError(err.detail || 'Discovery failed.'); return;
     }
 
-    const r = await res.json();
-    renderResult(r);
-
+    renderResult(await res.json(), langevin_steps);
   } catch(e) {
     showError('Network error: ' + e.message);
   } finally {
@@ -574,21 +704,26 @@ async function runDiscovery() {
   }
 }
 
-function renderResult(r) {
-  const content = document.getElementById('result-content');
+function renderResult(r, steps) {
   const dsColor = r.delta_s !== null
     ? (r.delta_s < 0.15 ? 'var(--warn)' : 'var(--success)')
     : 'var(--muted)';
 
-  let html = `
+  const stepsWarning = steps > 750
+    ? `<div style="font-family:var(--mono);font-size:10px;color:#ff4444;margin-bottom:12px;">⚠ ${steps} steps — over-diffusion zone. Optimal window: 500–750.</div>`
+    : steps < 500
+    ? `<div style="font-family:var(--mono);font-size:10px;color:var(--warn);margin-bottom:12px;">⚠ ${steps} steps — under-diffusion zone. Optimal window: 500–750.</div>`
+    : `<div style="font-family:var(--mono);font-size:10px;color:var(--success);margin-bottom:12px;">✓ ${steps} steps — optimal diffusion window.</div>`;
+
+  let html = stepsWarning + `
     <div class="expression-box">${escapeHtml(r.expression)}</div>
     <div class="metrics">
       <div class="metric">
-        <div class="metric-value">${(r.mae).toFixed(4)}</div>
+        <div class="metric-value">${r.mae.toFixed(4)}</div>
         <div class="metric-label">MAE</div>
       </div>
       <div class="metric">
-        <div class="metric-value">${(r.dcs).toFixed(3)}</div>
+        <div class="metric-value">${r.dcs.toFixed(3)}</div>
         <div class="metric-label">DCS</div>
       </div>
       <div class="metric">
@@ -611,10 +746,10 @@ function renderResult(r) {
         <div>
           <div class="alert-title">Hidden Physics Candidate — Δs = ${r.delta_s.toFixed(3)}</div>
           <div class="alert-body">
-            The rank-2 candidate is nearly as plausible as the dominant law.
+            The rank-2 Langevin candidate is nearly as plausible as the dominant law.
             This dataset may contain physics beyond the discovered expression.
             The rank-2 term is the most plausible symbolic correction consistent
-            with dimensional analysis.
+            with dimensional analysis — a structured dark matter / fifth force hypothesis.
           </div>
           <div class="rank2-box">Rank-2: ${escapeHtml(r.rank2_expression)}</div>
         </div>
@@ -624,9 +759,10 @@ function renderResult(r) {
 
   html += `
     <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px;">
-      JEPA: ${r.jepa_active ? '<span style="color:var(--success)">ACTIVE</span>' : '<span style="color:var(--muted)">OFF</span>'}
-      &nbsp;·&nbsp; Engine: PIR-JEPA v1.0
+      JEPA: ${r.jepa_active ? '<span style="color:var(--success)">ACTIVE</span>' : '<span>OFF</span>'}
+      &nbsp;·&nbsp; Langevin: ${steps} steps
       &nbsp;·&nbsp; α=0.7 β=0.3 γ_JEPA=0.2
+      &nbsp;·&nbsp; PIR-JEPA v2 · <a href="https://doi.org/10.5281/zenodo.19477508" target="_blank" style="color:var(--accent);text-decoration:none;">DOI</a>
     </div>
   `;
 
